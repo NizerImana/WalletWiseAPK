@@ -1,294 +1,363 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Télécharger WalletWise</title>
-  <meta name="description" content="Téléchargez WalletWise en toute sécurité." />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WalletWise : gérez votre argent simplement</title>
+  <meta name="description" content="WalletWise suit vos revenus, dépenses et épargne, et vous conseille selon vos habitudes. Application Android en kirundi, français, anglais et espagnol.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>💸</text></svg>">
   <style>
     :root {
       --bg: #f9f7fd;
       --card: #ffffff;
       --text: #2d3748;
-      --muted: #718096;
-      --primary: #a7c5eb;     /* bleu pastel */
+      --muted: #5a6578;
+      --navy: #1a365d;
+      --primary: #a7c5eb;
       --primary-hover: #8ab6e0;
-      --success: #a7e9c8;     /* vert menthe */
-      --warning: #fde68a;     /* jaune pâle */
-      --danger: #fbb6b6;      /* rose corail */
+      --success: #a7e9c8;
+      --warning: #fde68a;
+      --danger: #fbb6b6;
       --border: #e2e8f0;
       --shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-      --radius: 16px;
-      --spacing-sm: 0.5rem;
-      --spacing-md: 1rem;
-      --spacing-lg: 1.5rem;
+      --radius: 20px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; font-family: 'Inter', system-ui, sans-serif; }
+    html { scroll-behavior: smooth; }
     body {
+      font-family: 'Inter', system-ui, sans-serif;
       background: linear-gradient(to bottom, #f9f7fd, #eef2ff);
       color: var(--text);
       line-height: 1.6;
-      padding: var(--spacing-md) 0;
     }
+    a { color: var(--navy); }
+    h1, h2, h3 { line-height: 1.1; letter-spacing: -0.03em; }
 
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 var(--spacing-md);
-    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-md);
-      margin-bottom: var(--spacing-lg);
-    }
+    /* Navigation */
+    .nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 24px 0; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 22px; letter-spacing: -0.02em; text-decoration: none; color: var(--text); }
+    .brand-mark { width: 40px; height: 40px; border-radius: 12px; background: var(--primary); display: flex; align-items: center; justify-content: center; }
+    .nav-links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 28px; }
+    .nav-links a { color: #4a5568; text-decoration: none; font-weight: 500; padding: 12px 0; }
+    .nav-links a.nav-cta { background: var(--navy); color: #fff; font-weight: 600; padding: 12px 22px; border-radius: 12px; }
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: var(--spacing-md);
-      box-shadow: var(--shadow);
-      transition: transform 0.2s ease;
-    }
-    .card:hover { transform: translateY(-2px); }
+    /* Boutons */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 26px; border-radius: 12px; font: inherit; font-weight: 600; font-size: 16px; text-decoration: none; border: none; cursor: pointer; min-height: 48px; transition: background .2s ease, transform .2s ease; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--primary); color: var(--navy); }
+    .btn-primary:hover { background: var(--primary-hover); color: var(--navy); }
+    .btn-dark { background: var(--navy); color: #fff; }
+    .btn-dark:hover { color: #fff; background: #0f2442; }
+    .btn-ghost { background: #fff; color: var(--text); border: 1.5px solid var(--border); }
+    .btn-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); }
+    .btn-small { padding: 10px 18px; font-size: 14px; min-height: 44px; }
 
-    .title {
-      font-size: clamp(1.5rem, 4vw, 1.875rem);
-      font-weight: 700;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
+    .pill { display: inline-block; background: #f1f5f9; color: var(--muted); padding: 6px 12px; border-radius: 999px; font-size: 14px; border: 1px dashed #cbd5e1; }
+    .pill-solid { background: #fff; color: var(--navy); border: none; font-weight: 500; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: #fff; border: 1px solid var(--border); color: #4a5568; font-weight: 600; font-size: 14px; }
+    .badge i { width: 10px; height: 10px; border-radius: 50%; background: var(--success); display: block; }
 
-    .muted { color: var(--muted); font-size: 0.925rem; }
+    /* Hero */
+    .hero { display: flex; flex-wrap: wrap; align-items: center; gap: 56px; padding: 48px 0 88px; }
+    .hero-text { flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 26px; align-items: flex-start; }
+    .hero h1 { font-size: clamp(2.4rem, 6vw, 3.75rem); line-height: 1.05; letter-spacing: -0.035em; }
+    .hero p.lead { font-size: 19px; color: #4a5568; max-width: 500px; }
+    .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .row-tight { display: flex; flex-wrap: wrap; gap: 8px; }
 
-    .app-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin: 1rem 0;
-    }
+    /* Maquette téléphone */
+    .hero-visual { flex: 1 1 340px; min-width: 0; display: flex; justify-content: center; }
+    .phone { width: 300px; height: 600px; border-radius: 44px; background: var(--text); padding: 10px; box-shadow: 0 24px 50px -16px rgba(26, 54, 93, 0.35); }
+    .screen { width: 100%; height: 100%; border-radius: 34px; background: var(--bg); padding: 24px 16px; display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
+    .screen-head { display: flex; justify-content: space-between; align-items: center; }
+    .screen-head b { font-size: 16px; }
+    .screen-head span { font-size: 12px; color: var(--muted); }
+    .balance { background: var(--primary); border-radius: 20px; padding: 18px; color: var(--navy); display: flex; flex-direction: column; gap: 2px; }
+    .balance small { font-size: 12px; font-weight: 500; }
+    .balance strong { font-size: 30px; letter-spacing: -0.02em; line-height: 1.2; }
+    .chips { display: flex; gap: 8px; margin-top: 10px; font-size: 12px; font-weight: 600; }
+    .chips span { padding: 4px 10px; border-radius: 999px; }
+    .mini-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .mini-card b { font-size: 13px; font-weight: 600; }
+    .bars { display: flex; align-items: flex-end; gap: 10px; height: 80px; }
+    .bars div { flex: 1; background: #dbe7f6; border-radius: 8px; }
+    .bars div.hi { background: var(--primary); }
+    .cat { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+    .cat span { display: flex; align-items: center; gap: 8px; }
+    .cat i { width: 10px; height: 10px; border-radius: 50%; display: block; }
+    .tip { background: #fef6d0; border-radius: 14px; padding: 12px; font-size: 12px; color: #4a3b0a; }
 
-    .pill {
-      background: #f1f5f9;
-      color: var(--muted);
-      padding: 0.375rem 0.75rem;
-      border-radius: 999px;
-      font-size: 0.825rem;
-      border: 1px dashed #cbd5e1;
-    }
+    /* Fonctions */
+    .band { background: #fff; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .section { padding: 88px 0; display: flex; flex-direction: column; gap: 44px; }
+    .section h2 { font-size: clamp(1.9rem, 4vw, 2.5rem); }
+    .section .intro { max-width: 620px; display: flex; flex-direction: column; gap: 12px; }
+    .section .intro p { font-size: 18px; color: #4a5568; }
+    .grid { display: flex; flex-wrap: wrap; gap: 20px; }
+    .feature { flex: 1 1 230px; min-width: 0; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; display: flex; flex-direction: column; gap: 14px; box-shadow: var(--shadow); transition: transform .2s ease; }
+    .feature:hover { transform: translateY(-2px); }
+    .feature h3 { font-size: 19px; font-weight: 600; letter-spacing: 0; }
+    .feature p { color: #4a5568; }
+    .icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; }
 
-    .actions {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      margin-top: 1rem;
-    }
+    /* Conseils IA */
+    .advice { display: flex; flex-wrap: wrap; align-items: center; gap: 56px; padding: 88px 0; }
+    .advice-card { flex: 1 1 380px; min-width: 0; background: var(--navy); border-radius: 28px; padding: 32px; display: flex; flex-direction: column; gap: 14px; }
+    .advice-tag { align-self: flex-start; background: var(--primary); color: var(--navy); font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 999px; }
+    .bubble { background: #264a7a; color: #fff; border-radius: 18px; padding: 16px 18px; }
+    .advice-text { flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+    .advice-text h2 { font-size: clamp(1.9rem, 4vw, 2.5rem); }
+    .advice-text p { font-size: 18px; color: #4a5568; }
 
-    .btn {
-      padding: 0.75rem 1.25rem;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 0.925rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      min-width: 140px;
-      justify-content: center;
-      cursor: pointer;
-      border: none;
-    }
+    /* Langues */
+    .langs { background: #fff; border: 1px solid var(--border); border-radius: 28px; padding: 52px 32px; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center; box-shadow: var(--shadow); margin-bottom: 88px; }
+    .langs h2 { font-size: clamp(1.7rem, 4vw, 2.25rem); }
+    .lang { padding: 12px 24px; border-radius: 999px; font-weight: 600; color: var(--navy); }
 
-    .btn.primary {
-      background: var(--primary);
-      color: #1a365d;
-    }
-    .btn.primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+    /* Téléchargement */
+    .download { background: var(--primary); border-radius: 28px; padding: 56px 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 40px; color: var(--navy); margin-bottom: 24px; }
+    .download-text { flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+    .download h2 { font-size: clamp(1.9rem, 4vw, 2.5rem); }
+    .download p { font-size: 18px; }
+    .qr-box { flex: 0 1 200px; display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 0 auto; font-size: 14px; font-weight: 500; }
+    .qr-wrap { background: #fff; border-radius: 20px; padding: 14px; display: flex; align-items: center; justify-content: center; }
+    .qr-wrap img, .qr-wrap canvas { max-width: 160px; height: auto; }
 
-    .btn.ghost {
-      background: transparent;
-      border: 1.5px solid var(--border);
-      color: var(--text);
-    }
-    .btn.ghost:hover { background: #f8fafc; }
-
-    .qr-wrap {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #f8fafc;
-      border: 2px dashed #cbd5e1;
-      border-radius: 14px;
-      padding: 1rem;
-      margin-top: 0.5rem;
-    }
-    .qr-wrap canvas { max-width: 180px; width: 100%; height: auto; }
-
-    .section-title {
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .list {
-      margin: 0.75rem 0;
-      padding-left: 1.25rem;
-      color: var(--text);
-    }
-    .list li { margin: 0.5rem 0; }
-
-    .mono { font-family: ui-monospace, monospace; font-weight: 500; }
-
-    .copy {
-      background: #f1f5f9;
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 0.25rem 0.5rem;
-      border-radius: 8px;
-      font-size: 0.75rem;
-      cursor: pointer;
-      margin-left: 0.5rem;
-    }
-
-    .footnote {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 1rem;
-      font-style: italic;
-    }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.85rem;
-      padding: 2rem 0;
-      margin-top: 2rem;
-    }
-
-    #hash-result { margin-top: 0.75rem; font-weight: 500; }
+    .info { display: flex; flex-wrap: wrap; gap: 20px; padding-bottom: 88px; }
+    .info .card { flex: 1 1 320px; min-width: 0; background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; display: flex; flex-direction: column; gap: 14px; box-shadow: var(--shadow); }
+    .info h3 { font-size: 20px; font-weight: 600; letter-spacing: 0; }
+    .step { display: flex; gap: 14px; align-items: flex-start; }
+    .step b { flex: none; width: 28px; height: 28px; border-radius: 50%; color: var(--navy); font-size: 14px; display: flex; align-items: center; justify-content: center; }
+    .dot { flex: none; width: 10px; height: 10px; border-radius: 50%; margin-top: 9px; }
+    .stack { display: flex; flex-direction: column; gap: 12px; }
+    .mono { font-family: ui-monospace, monospace; }
+    .hash { background: #f1f5f9; border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; font-size: 13px; word-break: break-all; }
+    .small { font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+    .muted { color: #4a5568; }
+    #hash-result { font-weight: 500; font-size: 14px; min-height: 1.4em; }
     .success-msg { color: #166534; }
     .error-msg { color: #9b2c2c; }
     .loading { color: #b45309; }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .hero { grid-template-columns: 1fr; }
-      .btn { min-width: 100%; }
-      .actions { flex-direction: column; }
-      .qr-wrap canvas { max-width: 150px; }
-    }
+    footer { border-top: 1px solid var(--border); }
+    footer .wrap { padding: 28px 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 14px; }
 
-    @media (max-width: 480px) {
-      .container { padding: 0 0.75rem; }
-      .title { font-size: 1.5rem; }
-      .pill { font-size: 0.8rem; padding: 0.25rem 0.5rem; }
-      .copy, .footnote, footer { font-size: 0.75rem; }
+    @media (max-width: 600px) {
+      .wrap { padding: 0 16px; }
+      .download { padding: 40px 24px; }
+      .btn { width: 100%; }
+      .row { width: 100%; }
+      .nav-links a.nav-cta { padding: 12px 18px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="hero">
-      <section class="card">
-        <h2 class="section-title"><i class="fas fa-shield-alt" style="color:#a7c5eb;"></i> Vérifier l’intégrité</h2>
-        <p class="muted">Vérifiez que le fichier téléchargé est authentique.</p>
-        <button class="btn primary" id="verify-btn"><i class="fas fa-check"></i> Vérifier maintenant</button>
-        <p class="mono" style="margin:0.75rem 0; word-break:break-all;">
-          SHA-256 : <span id="checksumValue">db6206f2488c54b3beddcf6838b4caafee427996197a8cb8f8da4299123af0b8</span>
-          <button class="copy" id="copyChecksum"><i class="fas fa-copy"></i></button>
-        </p>
-        <p id="hash-result"></p>
-        <p class="footnote">
-          Windows : <code>CertUtil -hashfile WalletWise.apk SHA256</code><br>
-          macOS/Linux : <code>shasum -a 256 WalletWise.apk</code>
-        </p>
+
+  <div class="wrap">
+    <header class="nav">
+      <a class="brand" href="#">
+        <span class="brand-mark">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a365d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h15a3 3 0 0 1 3 3v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><path d="M3 7l12-3v3"/><circle cx="16.5" cy="14" r="1"/></svg>
+        </span>
+        WalletWise
+      </a>
+      <nav class="nav-links" aria-label="Navigation principale">
+        <a href="#fonctions">Fonctions</a>
+        <a href="#conseils">Conseils IA</a>
+        <a href="#langues">Langues</a>
+        <a class="nav-cta" href="#telecharger">Télécharger</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero">
+        <div class="hero-text">
+          <span class="badge"><i></i> Disponible sur Android</span>
+          <h1>Gardez le contrôle de votre argent.</h1>
+          <p class="lead">WalletWise suit vos revenus, vos dépenses et votre épargne, les présente en tableaux de bord clairs, et vous conseille à partir de vos propres habitudes.</p>
+          <div class="row">
+            <a class="btn btn-primary" href="https://nizerimana.github.io/WalletWiseAPK/WalletWise.apk" download>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a365d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+              Télécharger l’APK
+            </a>
+            <a class="btn btn-ghost" href="#fonctions">Découvrir</a>
+          </div>
+          <div class="row-tight">
+            <span class="pill">Version 1.0.0</span>
+            <span class="pill">Android 8.0+</span>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="phone">
+            <div class="screen">
+              <div class="screen-head"><b>Aperçu</b><span>Ce mois-ci</span></div>
+              <div class="balance">
+                <small>Solde</small>
+                <strong>482 500 FBu</strong>
+                <div class="chips">
+                  <span style="background: var(--success)">+750 000</span>
+                  <span style="background: var(--danger)">−267 500</span>
+                </div>
+              </div>
+              <div class="mini-card">
+                <b>Dépenses par semaine</b>
+                <div class="bars">
+                  <div style="height: 55%"></div>
+                  <div style="height: 80%"></div>
+                  <div class="hi" style="height: 100%"></div>
+                  <div style="height: 62%"></div>
+                </div>
+              </div>
+              <div class="mini-card" style="gap: 8px">
+                <div class="cat"><span><i style="background: var(--danger)"></i>Alimentation</span><b>92 000</b></div>
+                <div class="cat"><span><i style="background: var(--warning)"></i>Transport</span><b>48 500</b></div>
+                <div class="cat"><span><i style="background: var(--success)"></i>Épargne</span><b>120 000</b></div>
+              </div>
+              <div class="tip">Vos dépenses d’alimentation augmentent cette semaine. Fixez un plafond hebdomadaire pour rester dans votre budget.</div>
+            </div>
+          </div>
+        </div>
       </section>
-
-      <aside class="card">
-        <h2 class="section-title"><i class="fas fa-qrcode" style="color:#a7e9c8;"></i> QR Code</h2>
-        <div class="qr-wrap" id="qrcode"></div>
-        <p class="muted" style="text-align:center; margin-top:0.5rem; font-size:0.85rem;">Scannez pour télécharger</p>
-      </aside>
-    </div>
-
-    <section class="card">
-      <h1 class="title"><i class="fas fa-download" style="color:#a7c5eb;"></i> WalletWise</h1>
-      <p class="muted">Téléchargez la dernière version de l’application Android.</p>
-
-      <div class="app-meta">
-        <span class="pill">Version <strong class="mono" id="apkVersion">1.0.0</strong></span>
-        <span class="pill">Taille : <span class="mono" id="apkSize">Chargement...</span></span>
-        <span class="pill">Mise à jour : <span class="mono" id="apkDate">22/08/2025</span></span>
-        <span class="pill">Android 8.0+</span>
-      </div>
-
-      <div class="actions">
-        <a class="btn primary" id="downloadBtn" href="https://nizerimana.github.io/WalletWiseAPK/WalletWise.apk" download>
-          <i class="fas fa-download"></i> Télécharger l’APK
-        </a>
-        <a class="btn ghost" href="https://nizerimana.github.io/WalletWiseAPK/WalletWise.apk" target="_blank" rel="noopener">
-          <i class="fas fa-external-link-alt"></i> Miroir
-        </a>
-      </div>
-
-      <p class="footnote">Astuce : utilisez le QR code pour un téléchargement direct sur mobile.</p>
-    </section>
-
-    <section class="card" style="margin-top:1rem;">
-      <h2 class="section-title"><i class="fas fa-sticky-note" style="color:#fde68a;"></i> Notes de version</h2>
-      <ul class="list">
-        <li>Amélioration des performances et corrections de bugs</li>
-        <li>Nouvelle interface fluide et intuitive</li>
-        <li>Mise à jour de sécurité des dépendances</li>
-      </ul>
-    </section>
-
-    <section class="card" style="margin-top:1rem;">
-      <h2 class="section-title"><i class="fas fa-book" style="color:#fbb6b6;"></i> Installation rapide</h2>
-      <ol class="list">
-        <li>Téléchargez le fichier <span class="mono">WalletWise.apk</span></li>
-        <li>Ouvrez-le depuis votre gestionnaire de fichiers</li>
-        <li>Autorisez les « sources inconnues » si demandé</li>
-        <li>Suivez les instructions à l’écran</li>
-      </ol>
-    </section>
-
-    <footer>
-      © <span id="year"></span> WalletWise. Tous droits réservés.
-    </footer>
+    </main>
   </div>
 
-  <!-- Scripts -->
+  <!-- Fonctions -->
+  <div class="band" id="fonctions">
+    <div class="wrap section">
+      <div class="intro">
+        <h2>Tout pour garder la main sur vos finances</h2>
+        <p>Des outils simples pour l’argent que vous gagnez, dépensez et mettez de côté.</p>
+      </div>
+      <div class="grid">
+        <article class="feature">
+          <div class="icon" style="background: var(--primary)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a365d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h10"/></svg></div>
+          <h3>Suivi des transactions</h3>
+          <p>Enregistrez revenus, dépenses et épargne en quelques secondes.</p>
+        </article>
+        <article class="feature">
+          <div class="icon" style="background: var(--success)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a365d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1"/></svg></div>
+          <h3>Catégories personnalisées</h3>
+          <p>Classez vos dépenses comme vous les pensez, pas comme une app l’a décidé.</p>
+        </article>
+        <article class="feature">
+          <div class="icon" style="background: var(--warning)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a365d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg></div>
+          <h3>Tableaux de bord clairs</h3>
+          <p>Graphiques et statistiques pour comprendre vos habitudes d’un coup d’œil.</p>
+        </article>
+        <article class="feature">
+          <div class="icon" style="background: var(--danger)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a365d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/><path d="M19 17v4"/><path d="M17 19h4"/></svg></div>
+          <h3>Conseils par IA</h3>
+          <p>Des suggestions fondées sur la façon dont vous dépensez et épargnez vraiment.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- Conseils IA -->
+    <section class="advice" id="conseils">
+      <div class="advice-card">
+        <span class="advice-tag">Conseil WalletWise</span>
+        <div class="bubble">Vous avez dépensé plus en alimentation ces deux dernières semaines que les deux précédentes. Voulez-vous fixer une limite hebdomadaire ?</div>
+        <div class="bubble">Votre épargne progresse régulièrement ce mois-ci. Mettre un petit montant de côté à chaque paie peut aider à continuer.</div>
+      </div>
+      <div class="advice-text">
+        <h2>Des conseils qui partent de vos chiffres</h2>
+        <p>WalletWise lit vos propres transactions et repère les tendances que vous pourriez manquer. C’est vous qui décidez quoi en faire.</p>
+      </div>
+    </section>
+
+    <!-- Langues -->
+    <section class="langs" id="langues">
+      <h2>Disponible dans votre langue</h2>
+      <div class="row" style="justify-content: center">
+        <span class="lang" style="background: var(--primary)">Kirundi</span>
+        <span class="lang" style="background: var(--success)">Français</span>
+        <span class="lang" style="background: var(--warning)">English</span>
+        <span class="lang" style="background: var(--danger)">Español</span>
+      </div>
+    </section>
+
+    <!-- Téléchargement -->
+    <section class="download" id="telecharger">
+      <div class="download-text">
+        <h2>Téléchargez WalletWise</h2>
+        <p>La dernière version de l’application Android, prête à installer.</p>
+        <div class="row-tight">
+          <span class="pill pill-solid">Version <span id="apkVersion">1.0.0</span></span>
+          <span class="pill pill-solid">Taille : <span id="apkSize">Chargement...</span></span>
+          <span class="pill pill-solid">Mise à jour : <span id="apkDate">22/08/2025</span></span>
+          <span class="pill pill-solid">Android 8.0+</span>
+        </div>
+        <div class="row">
+          <a class="btn btn-dark" id="downloadBtn" href="https://nizerimana.github.io/WalletWiseAPK/WalletWise.apk" download>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+            Télécharger l’APK
+          </a>
+          <a class="btn btn-outline" href="https://nizerimana.github.io/WalletWiseAPK/WalletWise.apk" target="_blank" rel="noopener">Miroir</a>
+        </div>
+      </div>
+      <div class="qr-box">
+        <div class="qr-wrap" id="qrcode"></div>
+        <span>Scannez pour télécharger</span>
+      </div>
+    </section>
+
+    <section class="info">
+      <div class="card">
+        <h3>Installation rapide</h3>
+        <div class="stack">
+          <div class="step"><b style="background: var(--primary)">1</b><span>Téléchargez le fichier WalletWise.apk</span></div>
+          <div class="step"><b style="background: var(--success)">2</b><span>Ouvrez-le depuis votre gestionnaire de fichiers</span></div>
+          <div class="step"><b style="background: var(--warning)">3</b><span>Autorisez les « sources inconnues » si demandé</span></div>
+          <div class="step"><b style="background: var(--danger)">4</b><span>Suivez les instructions à l’écran</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Vérifier l’intégrité du fichier</h3>
+        <p class="muted">Comparez l’empreinte SHA-256 du fichier téléchargé avec celle-ci.</p>
+        <div class="hash mono" id="checksumValue">db6206f2488c54b3beddcf6838b4caafee427996197a8cb8f8da4299123af0b8</div>
+        <div class="row">
+          <button class="btn btn-primary btn-small" id="copyChecksum" type="button">Copier l’empreinte</button>
+          <button class="btn btn-ghost btn-small" id="verify-btn" type="button">Vérifier maintenant</button>
+        </div>
+        <p id="hash-result" role="status" aria-live="polite"></p>
+        <div class="small">
+          <span>Windows : <span class="mono">CertUtil -hashfile WalletWise.apk SHA256</span></span>
+          <span>macOS / Linux : <span class="mono">shasum -a 256 WalletWise.apk</span></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Notes de version</h3>
+        <div class="stack">
+          <div class="step"><i class="dot" style="background: var(--success)"></i><span>Amélioration des performances et corrections de bugs</span></div>
+          <div class="step"><i class="dot" style="background: var(--primary)"></i><span>Nouvelle interface fluide et intuitive</span></div>
+          <div class="step"><i class="dot" style="background: var(--warning)"></i><span>Mise à jour de sécurité des dépendances</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <span>© <span id="year"></span> WalletWise. Tous droits réservés.</span>
+      <span>Version 1.0.0 · Android 8.0+</span>
+    </div>
+  </footer>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
   <script>
     const APK_URL = "https://nizerimana.github.io/WalletWiseAPK/WalletWise.apk";
-    new QRCode(document.getElementById("qrcode"), {
-      text: APK_URL,
-      width: 180,
-      height: 180,
-      colorDark: "#1a365d",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H
-    });
-
     const META = {
       version: '1.0.0',
       date: '22/08/2025',
@@ -300,34 +369,49 @@
     document.getElementById('checksumValue').textContent = META.checksum;
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // QR code
+    new QRCode(document.getElementById('qrcode'), {
+      text: APK_URL,
+      width: 160,
+      height: 160,
+      colorDark: '#1a365d',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
     // Taille du fichier
     async function fetchFileSize() {
+      const el = document.getElementById('apkSize');
       try {
         const res = await fetch(APK_URL, { method: 'HEAD' });
-        let size = res.headers.get('Content-Length');
+        const size = res.headers.get('Content-Length');
         if (size) {
-          document.getElementById('apkSize').textContent = (size / (1024*1024)).toFixed(1) + ' MB';
+          el.textContent = (size / (1024 * 1024)).toFixed(1) + ' MB';
         } else {
           const full = await fetch(APK_URL);
           const buffer = await full.arrayBuffer();
-          document.getElementById('apkSize').textContent = (buffer.byteLength / (1024*1024)).toFixed(1) + ' MB';
+          el.textContent = (buffer.byteLength / (1024 * 1024)).toFixed(1) + ' MB';
         }
       } catch (e) {
-        document.getElementById('apkSize').textContent = 'Indisponible';
+        el.textContent = 'Indisponible';
       }
     }
     fetchFileSize();
 
-    // Copier le hash
-    document.getElementById('copyChecksum').onclick = async () => {
+    // Copier l'empreinte
+    const copyBtn = document.getElementById('copyChecksum');
+    copyBtn.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(META.checksum);
-        alert('Hash copié !');
-      } catch { alert('Copie échouée'); }
-    };
+        copyBtn.textContent = 'Copié';
+      } catch (e) {
+        copyBtn.textContent = 'Copie échouée';
+      }
+      setTimeout(() => { copyBtn.textContent = 'Copier l’empreinte'; }, 2000);
+    });
 
-    // Vérification du hash
-    document.getElementById('verify-btn').onclick = () => {
+    // Vérification de l'empreinte
+    document.getElementById('verify-btn').addEventListener('click', () => {
       const result = document.getElementById('hash-result');
       result.textContent = 'Vérification en cours...';
       result.className = 'loading';
@@ -337,7 +421,7 @@
         .then(buf => {
           const hash = sha256(new Uint8Array(buf));
           if (hash === META.checksum) {
-            result.textContent = 'Vérification réussie ! Le fichier est authentique.';
+            result.textContent = 'Vérification réussie. Le fichier est authentique.';
             result.className = 'success-msg';
           } else {
             result.textContent = 'Échec : le fichier a été modifié.';
@@ -348,7 +432,7 @@
           result.textContent = 'Erreur : ' + err;
           result.className = 'error-msg';
         });
-    };
+    });
   </script>
 </body>
 </html>
